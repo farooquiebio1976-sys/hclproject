@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phishing Email Detector</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span></div>
+
+<header class="top">
+  <h1>Phishing Email Detector</h1>
+  <p>Paste a suspicious email with its full headers. Everything is analyzed in your browser; only IP addresses are sent to a lookup service.</p>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button class="tab active" data-tab="email" role="tab">Email analyzer</button>
+  <button class="tab" data-tab="ip" role="tab">IP tracer</button>
+  <button class="tab" data-tab="url" role="tab">Link checker</button>
+</nav>
+
+<main>
+  <!-- EMAIL ANALYZER -->
+  <section id="tab-email" class="panel active">
+    <div class="card">
+      <div class="row between">
+        <h2>Raw email</h2>
+        <div class="row gap">
+          <button class="ghost" id="loadPhish">Load phishing sample</button>
+          <button class="ghost" id="loadSafe">Load safe sample</button>
+        </div>
+      </div>
+      <textarea id="emailInput" spellcheck="false" placeholder="Paste the full email here, including headers (From, Reply-To, Received, Authentication-Results...) and body.&#10;&#10;Gmail: open the email, ⋮ menu, Show original.&#10;Outlook: File, Properties, Internet headers."></textarea>
+      <div class="row gap">
+        <button class="primary" id="analyzeBtn">Analyze email</button>
+        <button class="ghost" id="clearBtn">Clear</button>
+      </div>
+    </div>
+
+    <div id="results" class="hidden">
+      <div class="card verdict">
+        <div class="gauge"><svg viewBox="0 0 120 120"><circle class="track" cx="60" cy="60" r="52"/><circle id="gaugeArc" class="arc" cx="60" cy="60" r="52"/></svg><div class="gnum"><b id="scoreNum">0</b><small>risk</small></div></div>
+        <div class="vtext">
+          <h2 id="verdictTitle"></h2>
+          <p id="verdictSub"></p>
+          <button class="ghost" id="copyReport">Copy report</button>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="card"><h2>Findings</h2><ul id="findings" class="findings"></ul></div>
+        <div class="card"><h2>Sender and authentication</h2><div id="headerInfo" class="kv"></div></div>
+      </div>
+      <div class="card"><h2>Links found</h2><div id="linkList" class="links"></div></div>
+      <div class="card"><h2>Mail route (IP trace)</h2><p class="muted">Servers the message passed through, oldest first. The first public hop is usually closest to the real sender.</p><div id="hops" class="hops"></div></div>
+    </div>
+  </section>
+
+  <!-- IP TRACER -->
+  <section id="tab-ip" class="panel">
+    <div class="card">
+      <h2>Trace an IP address</h2>
+      <div class="row gap wrap">
+        <input id="ipInput" type="text" placeholder="e.g. 8.8.8.8 or 2001:4860:4860::8888" spellcheck="false">
+        <button class="primary" id="ipBtn">Trace IP</button>
+        <button class="ghost" id="myIpBtn">Trace my IP</button>
+      </div>
+      <div id="ipOut" class="ipout"></div>
+    </div>
+  </section>
+
+  <!-- LINK CHECKER -->
+  <section id="tab-url" class="panel">
+    <div class="card">
+      <h2>Check a link before you click</h2>
+      <div class="row gap wrap">
+        <input id="urlInput" type="text" placeholder="https://paypa1-secure-login.top/verify" spellcheck="false">
+        <button class="primary" id="urlBtn">Check link</button>
+      </div>
+      <div id="urlOut" class="urlout"></div>
+    </div>
+  </section>
+</main>
+
+<footer>Heuristic checks give a risk estimate, not a guarantee. When in doubt, don't click, and report the email to your IT team.</footer>
+<script src="script.js"></script>
+</body>
+</html>
